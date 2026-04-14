@@ -1,12 +1,12 @@
-# 📊 Pipeline de Dados com IoT e Docker
+#  Pipeline de Dados com IoT e Docker
 
-## 📌 Descrição do Projeto
+##  Descrição do Projeto
 
 Este projeto tem como objetivo a construção de um pipeline de dados completo para processamento de leituras de temperatura provenientes de dispositivos IoT. A solução realiza a ingestão, transformação, armazenamento e visualização dos dados utilizando tecnologias modernas amplamente utilizadas no mercado.
 
 ---
 
-## 🚀 Tecnologias Utilizadas
+##  Tecnologias Utilizadas
 
 * Python 3.11
 * Docker
@@ -32,7 +32,7 @@ iot-pipeline/
 
 ---
 
-## 📊 Dataset
+##  Dataset
 
 O conjunto de dados utilizado contém leituras de temperatura de dispositivos IoT, incluindo:
 
@@ -44,7 +44,7 @@ O conjunto de dados utilizado contém leituras de temperatura de dispositivos Io
 
 ---
 
-## ⚙️ Configuração do Ambiente
+##  Configuração do Ambiente
 
 ### 1. Clonar o repositório
 
@@ -77,7 +77,7 @@ docker start postgres-iot
 
 ---
 
-## 🔄 Pipeline ETL
+##  Pipeline ETL
 
 O script ETL realiza:
 
