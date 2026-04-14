@@ -1,0 +1,199 @@
+# 📊 Pipeline de Dados com IoT e Docker
+
+## 📌 Descrição do Projeto
+
+Este projeto tem como objetivo a construção de um pipeline de dados completo para processamento de leituras de temperatura provenientes de dispositivos IoT. A solução realiza a ingestão, transformação, armazenamento e visualização dos dados utilizando tecnologias modernas amplamente utilizadas no mercado.
+
+---
+
+## 🚀 Tecnologias Utilizadas
+
+* Python 3.11
+* Docker
+* PostgreSQL
+* Pandas
+* SQLAlchemy
+* Streamlit
+* Plotly
+
+---
+
+## 📁 Estrutura do Projeto
+
+```
+iot-pipeline/
+│
+├── data/                # Dataset (CSV)
+├── src/                 # Scripts Python (ETL)
+├── dashboards/          # Dashboard Streamlit
+├── docs/imagens/        # Prints do projeto
+├── README.md
+```
+
+---
+
+## 📊 Dataset
+
+O conjunto de dados utilizado contém leituras de temperatura de dispositivos IoT, incluindo:
+
+* Identificação do sensor
+* Ambiente (room_id)
+* Data e hora
+* Temperatura
+* Local (interno/externo)
+
+---
+
+## ⚙️ Configuração do Ambiente
+
+### 1. Clonar o repositório
+
+```
+git clone <URL_DO_REPOSITORIO>
+cd iot-pipeline
+```
+
+---
+
+### 2. Instalar dependências
+
+```
+pip install pandas sqlalchemy psycopg2-binary streamlit plotly
+```
+
+---
+
+### 3. Subir o PostgreSQL com Docker
+
+```
+docker run --name postgres-iot -e POSTGRES_PASSWORD=1234 -e POSTGRES_DB=iot_db -p 5432:5432 -d postgres
+```
+
+Se já existir:
+
+```
+docker start postgres-iot
+```
+
+---
+
+## 🔄 Pipeline ETL
+
+O script ETL realiza:
+
+1. Leitura do CSV
+2. Tratamento dos dados
+3. Conversão de tipos
+4. Inserção no PostgreSQL
+
+### Execução:
+
+```
+python src/etl.py
+```
+
+---
+
+## Estrutura no Banco
+
+Tabela principal:
+
+* `temperature_readings`
+
+---
+
+## Views SQL Criadas
+
+### 1. Média de temperatura por ambiente
+
+```
+CREATE VIEW avg_temp_por_room AS
+SELECT room_id, AVG(temperature) AS avg_temp
+FROM temperature_readings
+GROUP BY room_id;
+```
+
+---
+
+### 2. Leituras por hora
+
+```
+CREATE VIEW leituras_por_hora AS
+SELECT EXTRACT(HOUR FROM timestamp) AS hora, COUNT(*) AS total_leituras
+FROM temperature_readings
+GROUP BY hora
+ORDER BY hora;
+```
+
+---
+
+### 3. Temperatura máxima e mínima por dia
+
+```
+CREATE VIEW temp_max_min_por_dia AS
+SELECT DATE(timestamp) AS data,
+       MAX(temperature) AS temp_max,
+       MIN(temperature) AS temp_min
+FROM temperature_readings
+GROUP BY data
+ORDER BY data;
+```
+
+---
+
+## Dashboard Interativo
+
+O dashboard foi desenvolvido com Streamlit e apresenta:
+
+* Indicadores gerais (média, máxima e mínima)
+* Média de temperatura por ambiente
+* Volume de leituras por hora
+* Variação de temperatura ao longo dos dias
+
+### Execução:
+
+```
+python -m streamlit run dashboards/dashboard.py
+```
+
+---
+
+## Capturas de Tela
+
+### Estrutura da Tabela
+
+![Estrutura](docs/imagens/01_estrutura_tabela.png)
+
+### Dados Inseridos
+
+![Dados](docs/imagens/02_dados_tabela.png)
+
+### Views SQL
+
+![View Média](docs/imagens/03_view_avg_temp.png)
+![View Hora](docs/imagens/04_view_leituras_hora.png)
+![View Max Min](docs/imagens/05_view_temp_max_min.png)
+
+### Dashboard
+
+![Dashboard](docs/imagens/06_dashboard_final.png)
+
+---
+
+##  Principais Insights
+
+* Identificação de variações de temperatura entre ambientes
+* Padrões de atividade dos sensores ao longo do dia
+* Análise de picos e quedas de temperatura ao longo do tempo
+
+---
+
+## Conclusão
+
+O projeto demonstra a construção de um pipeline de dados completo, integrando ingestão, processamento, armazenamento e visualização. A solução pode ser aplicada em cenários reais de monitoramento IoT, contribuindo para tomada de decisão baseada em dados.
+
+---
+
+## Autor
+
+Projeto desenvolvido para fins acadêmicos.
